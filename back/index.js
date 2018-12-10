@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.get('/', (req,res) => res.send('index page'));
 
 app.use('/api/playlists', playlistsRouter);
-app.use('/api/tracks', playlistsRouter);
+app.use('/api/tracks', tracksRouter);
 
 
 app.listen(port, (err) => {

@@ -38,6 +38,17 @@ router.get('/', (req, res) => {
   });
 });
 
+router.put('/', (req, res) => {
+  const id = req.query.id;
+  connection.query(`SELECT * FROM tracks WHERE id=${id}`, (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération des morceaux');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 
 
 module.exports = router;
