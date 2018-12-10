@@ -7,6 +7,7 @@ const tracksRouter = require('./routes/Tracks');
 const connection = require('./conf.js');
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.get('/', (req,res) => res.send('index page'));
 
