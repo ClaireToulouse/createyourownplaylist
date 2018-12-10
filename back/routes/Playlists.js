@@ -2,6 +2,29 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../conf.js');
 
+//en tant qu'utilisateur, je veux lister tous les morceaux d'une playlist.
+router.get('/', (req, res) => {
+  connection.query('SELECT * from playlists', (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération des playlists');
+    } else {
+      res.json(results);
+    }
+  })
+});
+
+//en tant qu'utilisateur, je veux pouvoir consulter une playlist en renseignant son id dans l'url
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  connection.query(`SELECT * FROM playlists WHERE id='${id}'`, (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération de la playlist!');
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 // en tant qu'utilisateur, je veux pouvoir créer une nouvelle playlist
 router.post('/', (req, res) => {
   const formData = req.body;
@@ -15,34 +38,12 @@ router.post('/', (req, res) => {
   })
 });
 
-//en tant qu'utilisateur, je veux pouvoir consulter une playlist en renseignant son id dans l'url
-router.get('/:id', (req, res) => {
-  const id = req.params.id;
-  connection.query(`SELECT * FROM playlists WHERE id=${id}`, (err, results) => {
-    if (err) {
-      res.status(500).send('Erreur lors de la récupération de la playlist!');
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-//en tant qu'utilisateur, je veux lister tous les morceaux d'une playlist.
-router.get('/', (req, res) => {
-  connection.query('SELECT * from playlists', (err, results) => {
-    if (err) {
-      res.status(500).send('Erreur lors de la récupération des playlists');
-    } else {
-      res.json(results);
-    }
-  })
-});
 
 //en tant qu'utilisateur, je veux pouvoir supprimer une playlist
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
   connection.query(
-    `DELETE FROM playlists WHERE id=${id}`, (err) => {
+    `DELETE FROM playlists WHERE id='${id}'`, (err) => {
       if (err) {
         res.status(500).send('Erreur lors de la récupération des playlists');
       } else {
@@ -83,8 +84,5 @@ router.get('/bytitle/:title', (req, res) => {
     }
   )
 })
-
-
-
 
 module.exports = router;

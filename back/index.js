@@ -4,12 +4,9 @@ const app = express();
 const port = process.env.port || 5000;
 const playlistsRouter = require('./routes/Playlists');
 const tracksRouter = require('./routes/Tracks');
-const connection = require('./conf.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-
-app.get('/', (req,res) => res.send('index page'));
 
 app.use('/api/playlists', playlistsRouter);
 app.use('/api/tracks', tracksRouter);
